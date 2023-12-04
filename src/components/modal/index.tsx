@@ -134,14 +134,6 @@ export const Modal: FC<ModalProps> = ({ DeLabConnectObject, scheme }) => {
                     ? <div className="delab-modal-content">
 
                         <div className="delab-modal-horizontal">
-                            <div className="delab-modal-horizontal-block" onClick={() => DeLabConnectObject.connectTonHub()}>
-                                <div className="delab-icon">
-                                    <img src={tonhubLogo} />
-                                </div>
-                                <span>
-                      Tonhub
-                                </span>
-                            </div>
 
                             <div className="delab-modal-horizontal-block" onClick={() => setType(2)}>
                                 <div className="delab-icon">

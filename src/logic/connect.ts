@@ -3,13 +3,6 @@
 import TonConnect, { WalletConnectionSource, WalletInfo, WalletInfoInjected, WalletInfoRemote } from '@tonconnect/sdk'
 import EventEmitter from 'events'
 
-import {
-    TonhubConnector,
-    TonhubCreatedSession,
-    TonhubSessionAwaited,
-    TonhubWalletConfig
-} from 'ton-x'
-
 import { Address } from 'ton'
 
 import {
@@ -31,17 +24,11 @@ export class Connect {
 
     private _network: DeLabNetwork
 
-    private _connectorTonHub: TonhubConnector
-
     private _connectorTonConnect: TonConnect
 
     private _tonConnectWallets: Array<WalletInfo>
 
     private _tonConnectWallet: WalletInfo | undefined
-
-    private _sessionTonHub: TonhubCreatedSession | undefined
-
-    private _walletTonHub: TonhubWalletConfig | undefined
 
     private _address: DeLabAddress
 
@@ -64,7 +51,6 @@ export class Connect {
         // this._hostName = hostNameTonkeeper
         this._tonConnectWallets = []
 
-        this._connectorTonHub = new TonhubConnector({ network })
         this._connectorTonConnect = new TonConnect({ manifestUrl })
 
         this._connectorTonConnect.restoreConnection()
@@ -124,16 +110,6 @@ export class Connect {
         if (Connect.getStorageData('init')) {
             const typeConnect = Connect.getStorageData('type-connect')
             switch (typeConnect) {
-                case 'tonhub':
-                    this._sessionTonHub = Connect.getStorageData('session-tonhub')
-                    this._address = Connect.getStorageData('address')
-                    this._walletTonHub = Connect.getStorageData('wallet-tonhub')
-                    this._network = Connect.getStorageData('network')
-                    this._typeConnect = 'tonhub'
-
-                    this.connectTonHub()
-                    break
-
                 case 'toncoinwallet':
 
                     this._address = Connect.getStorageData('address')
@@ -179,15 +155,6 @@ export class Connect {
 
     private clearStorage (): void {
         switch (this._typeConnect) {
-            case 'tonhub':
-                Connect.delStorageData('init')
-                Connect.delStorageData('type-connect')
-                Connect.delStorageData('address')
-                Connect.delStorageData('wallet-tonhub')
-                Connect.delStorageData('session-tonhub')
-                Connect.delStorageData('network')
-                break
-
             case 'toncoinwallet':
             case 'tonkeeper':
                 Connect.delStorageData('init')
@@ -199,15 +166,6 @@ export class Connect {
             default:
                 break
         }
-    }
-
-    private async createTonHub (): Promise<void> {
-        const sessionCreated: TonhubCreatedSession = await this._connectorTonHub.createNewSession({
-            name: this._appName,
-            url: this._appUrl
-        })
-        this._sessionTonHub = sessionCreated
-        console.log(sessionCreated)
     }
 
     public async createTonConnect (): Promise<void> {
@@ -233,50 +191,6 @@ export class Connect {
             autosave: true
         }
         this.newEvent('connect', sendData)
-    }
-
-    public async connectTonHub (): Promise<DeLabAddress> {
-        if (this._sessionTonHub) {
-            this.newEvent('link', this._sessionTonHub.link.replace('ton://', 'https://tonhub.com/'))
-            const session: TonhubSessionAwaited = await this._connectorTonHub
-                .awaitSessionReady(this._sessionTonHub.id, 5 * 60 * 1000) // 5 min timeout
-
-            if (session.state === 'revoked' || session.state === 'expired') {
-                this.newEvent('error', session.state)
-                // Handle revoked or expired session
-            } else if (session.state === 'ready') {
-                // console.log(session.wallet)
-
-                this._walletTonHub = session.wallet
-                this._address = session.wallet.address
-                this._typeConnect = 'tonhub'
-
-                this.sussesConnect()
-
-                Connect.addStorageData('init',  true)
-                Connect.addStorageData('type-connect',  this._typeConnect)
-                Connect.addStorageData('address',  this._address)
-                Connect.addStorageData('wallet-tonhub',  this._walletTonHub)
-                Connect.addStorageData('session-tonhub',  this._sessionTonHub)
-                Connect.addStorageData('network',  this._network)
-
-                this.closeModal()
-
-                // Handle session
-
-                // ...
-            } else {
-                throw new Error('Impossible')
-            }
-
-            return this._address
-        }
-
-        this.newEvent('error-tonhub', 'tonhub_session')
-
-        return undefined
-
-        // throw new Error('Error created TonHub session')
     }
 
     public async connectToncoinWallet (): Promise<DeLabAddress> {
@@ -344,8 +258,6 @@ export class Connect {
     }
 
     public disconnect (): boolean {
-        this._sessionTonHub = undefined
-        this._walletTonHub = undefined
         this._address = undefined
         this._balance = undefined
 
@@ -370,7 +282,6 @@ export class Connect {
         await this.createTonConnect()
         this.newEvent('modal', this._isOpenModal)
 
-        await this.createTonHub()
         return true
     }
 
@@ -396,18 +307,6 @@ export class Connect {
 
     public get network (): DeLabNetwork {
         return this._network
-    }
-
-    public get connectorTonHub (): TonhubConnector {
-        return this._connectorTonHub
-    }
-
-    public get sessionTonHub (): TonhubCreatedSession | undefined {
-        return this._sessionTonHub
-    }
-
-    public get walletTonHub (): TonhubWalletConfig | undefined {
-        return this._walletTonHub
     }
 
     public get tonConnectWallets (): Array<WalletInfo> | undefined {
