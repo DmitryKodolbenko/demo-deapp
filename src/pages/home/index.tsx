@@ -70,6 +70,7 @@ export const Home: FC<HomeProps> = ({ address }) => {
                 <input
                     className={s.inputField}
                     type="text"
+                    placeholder="Wallet Address"
                     value={formData.address}
                     onChange={e => setFormData({ ...formData, address: e.target.value })}
                 />
@@ -80,6 +81,7 @@ export const Home: FC<HomeProps> = ({ address }) => {
                 <input
                     className={s.inputField}
                     type="number"
+                    placeholder="Quantity"
                     value={formData.quantity}
                     onChange={e => setFormData({ ...formData, quantity: e.target.value })}
                 />
