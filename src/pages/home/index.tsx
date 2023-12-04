@@ -1,14 +1,17 @@
 /* eslint-disable consistent-return */
-import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
+import { useTonConnectUI } from '@tonconnect/ui-react'
 import { FC, useState } from 'react'
 import { toNano } from 'ton-core'
 
 import s from './home.module.scss'
+import { DeLabAddress } from '../../types'
 
-interface HomeProps {}
+interface HomeProps {
+    address: DeLabAddress
+}
 
 type FormDataType = {
-    address: string
+    address: DeLabAddress
     quantity: string
 }
 
@@ -17,20 +20,19 @@ const DEFAULT_FORM_DATA = {
     quantity: ''
 }
 
-export const Home: FC<HomeProps> = () => {
+export const Home: FC<HomeProps> = ({ address }) => {
     const [ formData, setFormData ] = useState<FormDataType>({
         address: '',
         quantity: ''
     })
 
     const [ tonConnectUI ] = useTonConnectUI()
-    const rawAddress = useTonAddress()
     const [ error, setError ] = useState<string | null>(null)
 
     const handleSendTransaction = async () => {
         setError(null)
 
-        if (!rawAddress) {
+        if (!address) {
             setError('Please connect wallet to send the transaction!')
             return
         }
@@ -77,7 +79,7 @@ export const Home: FC<HomeProps> = () => {
                 Quantity:
                 <input
                     className={s.inputField}
-                    type="text"
+                    type="number"
                     value={formData.quantity}
                     onChange={e => setFormData({ ...formData, quantity: e.target.value })}
                 />

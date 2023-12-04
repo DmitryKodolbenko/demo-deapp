@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable no-nested-ternary */
 import { FC, useEffect, useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 
-import { useTonAddress } from '@tonconnect/ui-react'
 import { TonApi } from '@delab-team/ton-api-sdk'
 import { AppInner } from '@delab-team/de-ui'
 
@@ -12,6 +12,10 @@ import { ROUTES } from './utils/router'
 
 import { Layout } from './layout'
 
+import { Connect } from './logic/connect'
+
+import { DeLabAddress, DeLabConnecting, DeLabEvent, DeLabNetwork, DeLabTypeConnect } from './types'
+
 declare global {
     interface Window {
         Telegram?: any;
@@ -19,40 +23,73 @@ declare global {
 }
 
 const isTestnet = window.location.host.indexOf('localhost') >= 0
-    || window.location.host.indexOf('127.0.0.1:3000') >= 0
+|| window.location.host.indexOf('127.0.0.1:3000') >= 0
     ? 'testnet'
     : window.location.href.indexOf('testnet') >= 0
         ? 'testnet'
         : 'mainnet'
 
+const DeLabConnector = new Connect('https://google.com', 'Test', 'mainnet')
 export const App: FC = () => {
     const [ firstRender, setFirstRender ] = useState<boolean>(false)
+    const [ firstRender2, setFirstRender2 ] = useState<boolean>(false)
     const [ isTg, setIsTg ] = useState<boolean>(false)
 
     const [ balance, setBalance ] = useState<string | undefined>(undefined)
 
-    const RawAddress = useTonAddress()
+    const [ isConnected, setIsConnected ] = useState<boolean>(false)
+    const [ address, setAddress ] = useState<DeLabAddress>(undefined)
+    const [ network, setNetwork ] = useState<DeLabNetwork>('mainnet')
+    const [ typeConnect, setTypeConnect ] = useState<DeLabTypeConnect>(undefined)
 
     const api = new TonApi('AFXRKLZM2YCJ67AAAAAE4XDRSACSYEOYKQKOSUVUKMXNMP2AKUTWJ2UVBPTTQZWRGZMLALY', isTestnet)
 
-    async function loadUser (address: string): Promise<boolean | undefined> {
-        const data = await api.Accounts.getHumanFriendlyInfo(address)
+    function listenDeLab () {
+        DeLabConnector.on('connect', (data: DeLabEvent) => {
+            setIsConnected(true)
+            const connectConfig: DeLabConnecting = data.data
+            setAddress(connectConfig.address)
+            setTypeConnect(connectConfig.typeConnect)
+            setNetwork(connectConfig.network)
+        })
 
-        if (!data || !data?.balance) {
-            return undefined
-        }
+        DeLabConnector.on('disconnect', () => {
+            setIsConnected(false)
+            setAddress(undefined)
+            setTypeConnect(undefined)
+            setNetwork('mainnet')
+            console.log('disconect')
+        })
 
-        setBalance(data?.balance.toString())
+        DeLabConnector.on('error', (data: DeLabEvent) => {
+            console.log('error-> ', data.data)
+        })
 
-        return true
+        DeLabConnector.on('error-transaction', (data: DeLabEvent) => {
+            console.log('error-transaction-> ', data.data)
+        })
+
+        DeLabConnector.on('error-toncoinwallet', (data: DeLabEvent) => {
+            console.log('error-toncoinwallet-> ', data.data)
+        })
+
+        DeLabConnector.on('error-tonhub', (data: DeLabEvent) => {
+            console.log('error-tonhub-> ', data.data)
+        })
+
+        DeLabConnector.on('error-tonkeeper', (data: DeLabEvent) => {
+            console.log('error-tonkeeper-> ', data.data)
+        })
+
+        DeLabConnector.loadWallet()
     }
 
-    // load user
     useEffect(() => {
-        if (RawAddress) {
-            loadUser(RawAddress)
+        if (!firstRender2 && DeLabConnector) {
+            setFirstRender(true)
+            listenDeLab()
         }
-    }, [ RawAddress ])
+    }, [])
 
     // init twa
     useEffect(() => {
@@ -75,11 +112,30 @@ export const App: FC = () => {
         }
     }, [])
 
+    async function loadUser (address: string): Promise<boolean | undefined> {
+        const data = await api.Accounts.getHumanFriendlyInfo(address)
+
+        if (!data || !data?.balance) {
+            return undefined
+        }
+
+        setBalance(data?.balance.toString())
+
+        return true
+    }
+
+    // load user
+    useEffect(() => {
+        if (address) {
+            loadUser(address)
+        }
+    }, [ address ])
+
     return (
         <AppInner isTg={isTg}>
-            <Layout>
+            <Layout DeLabConnectObject={DeLabConnector} address={address} isConnected={isConnected} scheme={'dark'}>
                 <Routes>
-                    <Route path={ROUTES.HOME} element={<Home />} />
+                    <Route path={ROUTES.HOME} element={<Home address={address} />} />
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </Layout>
