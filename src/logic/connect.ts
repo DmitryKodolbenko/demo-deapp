@@ -170,7 +170,21 @@ export class Connect {
 
     public async createTonConnect (): Promise<void> {
         const walletsList = await this._connectorTonConnect.getWallets()
-        this._tonConnectWallets = walletsList
+
+        const localwallets = [
+            {
+                name:"DeWallet",
+                // appName:"telegram-wallet",
+                appName:"dewallet",
+                imageUrl:"https://wallet.tg/images/logo-288.png",
+                aboutUrl:"https://wallet.tg/",
+                platforms: ["ios","android","macos","windows","linux"],
+                bridgeUrl: "https://bridge.tonapi.io/bridge",
+                universalLink: "https://t.me/delabtonbot/wallet?startapp"
+            }] as WalletInfo[]
+
+            // https://t.me/delabtonbot/donate?startapp=EQC7tMMk77bZJiR5PzS4gAQAodnqRbK1vbOlVGOnv4BMK3e_
+         this._tonConnectWallets = localwallets
 
         const tonkeeperKey: any = walletsList[0]
 
@@ -180,7 +194,7 @@ export class Connect {
                 { jsBridgeKey: tonkeeperKey.jsBridgeKey }
             )
         }
-        console.log(this._tonConnectWallets)
+        console.log(JSON.stringify(this._tonConnectWallets))
     }
 
     private sussesConnect () {
