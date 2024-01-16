@@ -173,18 +173,23 @@ export class Connect {
 
         const localwallets = [
             {
-                name:"DeWallet",
+                name: 'DeWallet',
                 // appName:"telegram-wallet",
-                appName:"dewallet",
-                imageUrl:"https://wallet.tg/images/logo-288.png",
-                aboutUrl:"https://wallet.tg/",
-                platforms: ["ios","android","macos","windows","linux"],
-                bridgeUrl: "https://bridge.tonapi.io/bridge",
-                universalLink: "https://t.me/delabtonbot/wallet?startapp"
-            }] as WalletInfo[]
+                appName: 'dewallet',
+                imageUrl: 'https://wallet.tg/images/logo-288.png',
+                aboutUrl: 'https://wallet.tg/',
+                platforms: [ 'ios', 'android', 'macos', 'windows', 'linux' ],
+                bridgeUrl: 'https://bridge.tonapi.io/bridge',
+                universalLink: 'https://v2.delabwallet.com/'
+                // 'https://t.me/delabtonbot/wallet?startapp'
+                // https://t.me/wallet?attach=wallet
 
-            // https://t.me/delabtonbot/donate?startapp=EQC7tMMk77bZJiR5PzS4gAQAodnqRbK1vbOlVGOnv4BMK3e_
-         this._tonConnectWallets = localwallets
+                // eslint-disable-next-line max-len
+                // https://t.me/wallet?attach=wallet&startattach=tonconnect-v__2-id__7d27c318642a58a71e6de16085c5f22567dceff099d4c943c99faa6727aa137e-r__--7B--22manifestUrl--22--3A--22https--3A--2F--2Fcloudflare--2Dipfs--2Ecom--2Fipfs--2Fbafkreib7l74fuh7gmmmnwjoy3j4si74tdwgegw6gabuebfskolipuuia6i--22--2C--22items--22--3A--5B--7B--22name--22--3A--22ton--5Faddr--22--7D--5D--7D
+            } ] as WalletInfo[]
+
+        // https://t.me/delabtonbot/donate?startapp=EQC7tMMk77bZJiR5PzS4gAQAodnqRbK1vbOlVGOnv4BMK3e_
+        this._tonConnectWallets = localwallets
 
         const tonkeeperKey: any = walletsList[0]
 
