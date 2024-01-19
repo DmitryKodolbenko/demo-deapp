@@ -182,7 +182,6 @@ export class Connect {
                 platforms: [ 'ios', 'android', 'macos', 'windows', 'linux' ],
                 bridgeUrl: 'https://bridge.tonapi.io/bridge',
                 universalLink: 'https://v2.delabwallet.com/tonconnect'
-
             } ] as WalletInfo[]
         this._tonConnectWallets = localwallets
 

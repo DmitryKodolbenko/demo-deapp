@@ -133,26 +133,6 @@ export const App: FC = () => {
         }
     }, [ address ])
 
-    function replaceSpecialChars (input: string): string {
-        // Заменяем символ % на --AA--
-        let result = input.replace(/%/g, '--AA--')
-
-        // Заменяем точку . на --BB--
-        result = result.replace(/\./g, '--BB--')
-
-        return result
-    }
-
-    function restoreSpecialChars (input: string): string {
-        // Заменяем --AA-- на %
-        let result = input.replace(/--AA--/g, '%')
-
-        // Заменяем --BB-- на .
-        result = result.replace(/--BB--/g, '.')
-
-        return result
-    }
-
     return (
         <AppInner isTg={isTg}>
             <Layout DeLabConnectObject={DeLabConnector} address={address} isConnected={isConnected} scheme={'dark'}>
