@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable no-nested-ternary */
 import { FC, useEffect, useState } from 'react'
@@ -130,6 +132,52 @@ export const App: FC = () => {
             loadUser(address)
         }
     }, [ address ])
+
+    function replaceSpecialChars (input: string): string {
+        // Заменяем символ % на --AA--
+        let result = input.replace(/%/g, '--AA--')
+
+        // Заменяем точку . на --BB--
+        result = result.replace(/\./g, '--BB--')
+
+        return result
+    }
+
+    function restoreSpecialChars (input: string): string {
+        // Заменяем --AA-- на %
+        let result = input.replace(/--AA--/g, '%')
+
+        // Заменяем --BB-- на .
+        result = result.replace(/--BB--/g, '.')
+
+        return result
+    }
+
+    // const codeUrl = '%22%7B%5C%22manifestUrl%5C%22%3A%5C%22https%3A%2F%2Fcloudflare-ipfs.com%2Fipfs%2Fbafkreib7l74fuh7gmmmnwjoy3j4si74tdwgegw6gabuebfskolipuuia6i%5C%22%2C%5C%22items%5C%22%3A%5B%7B%5C%22name%5C%22%3A%5C%22ton_addr%5C%22%7D%5D%7D%22'
+
+    // console.log('codeUrl', codeUrl)
+
+    // const encodeUrl = replaceSpecialChars(codeUrl)
+
+    // console.log('encodeUrl', encodeUrl)
+
+    // const decodeUrl = restoreSpecialChars(encodeUrl)
+
+    // console.log('encodeUrl', decodeUrl)
+
+    // console.log('decodeUrl === codeUrl', decodeUrl === codeUrl)
+
+    // console.log('{"manifestUrl":"https://cloudflare-ipfs.com/ipfs/bafkreib7l74fuh7gmmmnwjoy3j4si74tdwgegw6gabuebfskolipuuia6i","items":[{"name":"ton_addr"}]}')
+    // console.log(JSON.parse('{"manifestUrl":"https://cloudflare-ipfs.com/ipfs/bafkreib7l74fuh7gmmmnwjoy3j4si74tdwgegw6gabuebfskolipuuia6i","items":[{"name":"ton_addr"}]}'))
+    console.log(JSON.parse(decodeURIComponent('%22%7B%5C%22manifestUrl%5C%22%3A%5C%22https%3A%2F%2Fcloudflare-ipfs.com%2Fipfs%2Fbafkreib7l74fuh7gmmmnwjoy3j4si74tdwgegw6gabuebfskolipuuia6i%5C%22%2C%5C%22items%5C%22%3A%5B%7B%5C%22name%5C%22%3A%5C%22ton_addr%5C%22%7D%5D%7D%22')))
+
+    // console.log(decodeURIComponent('%22%7B%5C%22manifestUrl%5C%22%3A%5C%22https%3A%2F%2Fcloudflare-ipfs.com%2Fipfs%2Fbafkreib7l74fuh7gmmmnwjoy3j4si74tdwgegw6gabuebfskolipuuia6i%5C%22%2C%5C%22items%5C%22%3A%5B%7B%5C%22name%5C%22%3A%5C%22ton_addr%5C%22%7D%5D%7D%22'))
+
+    console.log(JSON.parse(JSON.parse(decodeURIComponent('%22%7B%5C%22manifestUrl%5C%22%3A%5C%22https%3A%2F%2Fcloudflare-ipfs.com%2Fipfs%2Fbafkreib7l74fuh7gmmmnwjoy3j4si74tdwgegw6gabuebfskolipuuia6i%5C%22%2C%5C%22items%5C%22%3A%5B%7B%5C%22name%5C%22%3A%5C%22ton_addr%5C%22%7D%5D%7D%22'))))
+
+    console.log(typeof JSON.parse(decodeURIComponent('%22%7B%5C%22manifestUrl%5C%22%3A%5C%22https%3A%2F%2Fcloudflare-ipfs.com%2Fipfs%2Fbafkreib7l74fuh7gmmmnwjoy3j4si74tdwgegw6gabuebfskolipuuia6i%5C%22%2C%5C%22items%5C%22%3A%5B%7B%5C%22name%5C%22%3A%5C%22ton_addr%5C%22%7D%5D%7D%22')) === 'object')
+
+    console.log(typeof JSON.parse(JSON.parse(decodeURIComponent('%22%7B%5C%22manifestUrl%5C%22%3A%5C%22https%3A%2F%2Fcloudflare-ipfs.com%2Fipfs%2Fbafkreib7l74fuh7gmmmnwjoy3j4si74tdwgegw6gabuebfskolipuuia6i%5C%22%2C%5C%22items%5C%22%3A%5B%7B%5C%22name%5C%22%3A%5C%22ton_addr%5C%22%7D%5D%7D%22'))) === 'object')
 
     return (
         <AppInner isTg={isTg}>
