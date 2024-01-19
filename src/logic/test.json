@@ -1,0 +1,15 @@
+
+{
+    "app_name": "dewallet",
+    "name": "DeWallet",
+    "image": "https://app.delabwallet.com/logo_black.png",
+    "about_url": "https://delabwallet.com",
+    "universal_url": "https://v2.delabwallet.com/tonconnect",
+    "bridge": [
+      {
+        "type": "sse",
+        "url": "https://bridge.tonapi.io/bridge"
+      }
+    ],
+    "platforms": ["chrome", "ios", "android", "macos", "windows", "linux"]
+  }

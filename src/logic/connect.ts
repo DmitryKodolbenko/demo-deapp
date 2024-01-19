@@ -183,27 +183,7 @@ export class Connect {
                 bridgeUrl: 'https://bridge.tonapi.io/bridge',
                 universalLink: 'https://v2.delabwallet.com/tonconnect'
 
-                // --AA--22--AA--7B--AA--5C--AA--22manifestUrl--AA--5C--AA--22--AA--3A--AA--5C--AA--22https--AA--3A--AA--2F--AA--2Fcloudflare-ipfs--BB--com--AA--2Fipfs--AA--2Fbafkreib7l74fuh7gmmmnwjoy3j4si74tdwgegw6gabuebfskolipuuia6i--AA--5C--AA--22--AA--2C--AA--5C--AA--22items--AA--5C--AA--22--AA--3A--AA--5B--AA--7B--AA--5C--AA--22name--AA--5C--AA--22--AA--3A--AA--5C--AA--22ton_addr--AA--5C--AA--22--AA--7D--AA--5D--AA--7D--AA--22-
-
-                // --AA--22--AA--7B--AA--5C--AA--22manifestUrl--AA--5C--AA--22--AA--3A--AA--5C--AA--22https--AA--3A--AA--2F--AA--2Fcloudflare-ipfs--BB--com--AA--2Fipfs--AA--2Fbafkreib7l74fuh7gmmmnwjoy3j4si74tdwgegw6gabuebfskolipuuia6i--AA--5C--AA--22--AA--2C--AA--5C--AA--22items--AA--5C--AA--22--AA--3A--AA--5B--AA--7B--AA--5C--AA--22name--AA--5C--AA--22--AA--3A--AA--5C--AA--22ton_addr--AA--5C--AA--22--AA--7D--AA--5D--AA--7D--AA--22
-
-                // 'https://v2.delabwallet.com/'
-
-                // 'https://t.me/delabtonbot/wallet?startapp'
-                // https://t.me/delabtonbot/donate?startapp=EQC7tMMk77bZJiR5PzS4gAQAodnqRbK1vbOlVGOnv4BMK3e_
-                // https://t.me/wallet?attach=wallet
-
-                // tg://resolve?domain=delabtonbot&appname=wallet&startapp=tonconnect-v__2-id__e0caeac8303c2c82406d60ea51a949622503025f05619a249df9989744d7f779-r__--manifestUrl--%26quot%3Bhttps%3A%2F%2Fcloudflare-ipfs.com%2Fipfs%2Fbafkreib7l74fuh7gmmmnwjoy3j4si74tdwgegw6gabuebfskolipuuia6i%26quot%3B--items--%5B%7B%26quot%3Bname%26quot%3B%3A%26quot%3Bton_addr%26quot%3B%7D%5D-/
-
-                // tg://resolve?domain=delabtonbot&appname=wallet&startapp=tonconnect-v__2-id__76b9c5a63a63aaa177ff4f703264d04312366df7667acc9ef72b5d18414eca2f-r__--7B----22--manifestUrl--22--%3A--22--https%3A%2F%2Fcloudflare-ipfs.com%2Fipfs%2Fbafkreib7l74fuh7gmmmnwjoy3j4si74tdwgegw6gabuebfskolipuuia6i--22--%2C--22--items--22--%3A--5B----7B----22--name--22--%3A--22--ton_addr--22----7D----5D----7D---/
-
-                // tg://resolve?domain=wallet&appname=start&startapp=tonconnect-v__2-id__4915842b79cc8e77e8ad3b2b22e2d1df09ed264e77e6227f7eb7a07146e5b551-r__--7B--22manifestUrl--22--3A--22https--3A--2F--2Fdedust--2Eio--2Fapi--2Ftonconnect--2Dmanifest--22--2C--22items--22--3A--5B--7B--22name--22--3A--22ton--5Faddr--22--7D--5D--7D-ret__none/
-
-                // eslint-disable-next-line max-len
-                // https://t.me/wallet?attach=wallet&startattach=tonconnect-v__2-id__7d27c318642a58a71e6de16085c5f22567dceff099d4c943c99faa6727aa137e-r__--7B--22manifestUrl--22--3A--22https--3A--2F--2Fcloudflare--2Dipfs--2Ecom--2Fipfs--2Fbafkreib7l74fuh7gmmmnwjoy3j4si74tdwgegw6gabuebfskolipuuia6i--22--2C--22items--22--3A--5B--7B--22name--22--3A--22ton--5Faddr--22--7D--5D--7D
             } ] as WalletInfo[]
-
-        // https://t.me/delabtonbot/donate?startapp=EQC7tMMk77bZJiR5PzS4gAQAodnqRbK1vbOlVGOnv4BMK3e_
         this._tonConnectWallets = localwallets
 
         const tonkeeperKey: any = walletsList[0]
